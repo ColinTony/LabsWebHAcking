@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Practice Lab — HTB-style Easy (by c0l1nr00t)</title>
+  <style>
+    :root{
+      --bg:#0b1022; --panel:#0f172a; --card:#0e1326; --text:#e6edf3; --muted:#97a3b6;
+      --btn1:#6ee7f9; --btn2:#22d3ee; --btn3:#93c5fd; --btn4:#60a5fa; --accent:#22d3ee; --danger:#ef4444;
+      --green:#22c55e; --yellow:#facc15;
+    }
+    *{box-sizing:border-box}
+    body{font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto;line-height:1.55;margin:0;background:linear-gradient(180deg,#0a0f20 0%, #0b1022 100%);color:var(--text)}
+    .container{max-width:1100px;margin:0 auto;padding:28px 20px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+    .brand{font-weight:800;font-size:26px;letter-spacing:.4px}
+    .brand span{background:linear-gradient(90deg,var(--btn3),var(--btn1));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .by{font-size:13px;color:var(--muted)}
+    .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .card{background:radial-gradient(1200px 300px at 20% -50%, rgba(34,211,238,0.08), transparent 40%), var(--card);
+          border:1px solid rgba(148,163,184,.12); border-radius:16px; padding:16px 18px; box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    .muted{color:var(--muted); font-size:.95rem}
+    code{background:#0b1220;padding:.15rem .4rem;border-radius:.35rem}
+    .section{margin:18px 0}
+    .btn{--c1:var(--btn2);--c2:var(--btn4); display:inline-flex;align-items:center;gap:.5rem;
+         background:linear-gradient(90deg,var(--c1),var(--c2)); color:#06141f; font-weight:800;
+         padding:.6rem .9rem;border-radius:.7rem; text-decoration:none; position:relative; overflow:hidden;
+         transition:transform .08s ease, filter .2s ease}
+    .btn.small{font-size:.92rem}
+    .btn:hover{transform:translateY(-1px); filter:brightness(1.08)}
+    .btn:active{transform:translateY(0)}
+    .btn.alt{--c1:var(--btn1);--c2:var(--btn3)}
+    .btn.warn{--c1:var(--yellow);--c2:var(--btn3)}
+    .btn.danger{--c1:#fb7185; --c2:#ef4444}
+    .btn.ghost{background:transparent;color:var(--muted);border:1px dashed rgba(148,163,184,.3)}
+    .btnRow{display:flex;gap:.6rem;flex-wrap:wrap}
+    footer{margin-top:26px;color:var(--muted);font-size:.86rem}
+    /* Terminal panel */
+    .terminal{background:var(--panel); border:1px solid rgba(148,163,184,.16); border-radius:14px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,.3)}
+    .term-top{display:flex;align-items:center;gap:8px;padding:10px 12px;background:linear-gradient(180deg,#0f172a 0%, #0b1220 100%); border-bottom:1px solid rgba(148,163,184,.12)}
+    .dot{width:12px;height:12px;border-radius:50%}
+    .dot.red{background:#ff5f56}.dot.yellow{background:#ffbd2e}.dot.green{background:#27c93f}
+    .term-body{padding:12px 14px; font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:13.5px; height:200px; overflow:auto; color:#cbd5e1}
+    .prompt{color:#93c5fd}
+    .line.new{opacity:0; transform:translateY(6px); animation: slideIn .25s ease forwards}
+    @keyframes slideIn{to{opacity:1; transform:translateY(0)}}
+    /* Scoreboard styles */
+    .tasks{list-style:none;margin:0;padding:0;display:grid;gap:.45rem}
+    .ok{color:#86efac}
+    .tag{display:inline-block;background:rgba(34,211,238,.18);color:var(--accent);padding:.2rem .45rem;border-radius:.4rem;font-size:.78rem}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <div class="brand">HTB-style Lab <span>Easy/HARD</span></div>
+        <div class="by">by c0l1nr00t — ¿seguro que puedes con todas las flags?</div>
+      </div>
+      <div class="btnRow">
+        <a href="/juice/" class="btn small">Juice Shop</a>
+        <a href="/dvwa/" class="btn small alt">DVWA</a>
+        <a href="/webgoat/" class="btn small">WebGoat</a>
+        <a href="/webwolf/" class="btn small alt">WebWolf</a>
+        <a href="/files/" class="btn small ghost">/files</a>
+      </div>
+    </header>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Subdominios</h3>
+        <p class="muted">Añade a <code>/etc/hosts</code>:</p>
+<pre>127.0.0.1 intranet.lab blog.lab files.lab vuln.lab</pre>
+        <div class="btnRow">
+          <a href="http://intranet.lab:8080" target="_blank" class="btn small">intranet.lab</a>
+          <a href="http://blog.lab:8080" target="_blank" class="btn small alt">blog.lab</a>
+          <a href="http://files.lab:8080" target="_blank" class="btn small">files.lab</a>
+          <a href="http://vuln.lab:8080" target="_blank" class="btn small alt">vuln.lab</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🎯 Desafíos</h3>
+        <p class="muted">Demuestra que no hablas… actúas. <span class="tag">No hints</span></p>
+        <ul class="tasks">
+          <li>Flag Intranet — “Fácil”, dicen. <em>(No encontrarás ese directorio…)</em></li>
+          <li>Flag Blog — Los “uploads” no guardan secretos… ¿o sí?</li>
+          <li>Flag Files — Si el autoindex te ayuda tanto, ¿por qué tardas?</li>
+          <li>Buffer Overflow — 0x41414141 suena simple… hasta que no lo es.</li>
+          <li>IDOR — Nadie te daría un perfil admin sin auth… ¿verdad?</li>
+          <li>LFI — La escalera al infierno tiene dos puntos: <code>..</code> y <code>/</code>.</li>
+        </ul>
+      </div>
+
+      <div class="card terminal" aria-readonly="true">
+        <div class="term-top">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="muted">taunt@lab:~</span>
+        </div>
+        <div id="term" class="term-body" role="log" aria-live="polite" aria-label="Terminal de mensajes"></div>
+      </div>
+    </div>
+
+    <div class="card section">
+      <h3>🏆 Scoreboard (Stealth)</h3>
+      <p class="muted">Marca sólo cuando el contenido de la URL realmente contiene la flag esperada.</p>
+      <div class="grid">
+        <div>
+          <ul class="tasks">
+            <li><a class="btn small" onclick="verify('intranet','http://intranet.lab:8080/private/flag_intranet_c0l1nr00t.txt')">Flag Intranet</a> <span id="s-intranet"></span></li>
+            <li><a class="btn small alt" onclick="verify('blog','http://blog.lab:8080/wp-content/uploads/flag_blog_c0l1nr00t.txt')">Flag Blog</a> <span id="s-blog"></span></li>
+            <li><a class="btn small" onclick="verify('files','http://files.lab:8080/secrets/flag_files_c0l1nr00t.txt')">Flag Files</a> <span id="s-files"></span></li>
+            <li><a class="btn small alt" onclick="verify('bof','http://localhost:8080/assets/bover_flag.txt')">Flag BufferOverflow</a> <span id="s-bof"></span></li>
+            <li><a class="btn small" onclick="verify('idor','http://vuln.lab:8080/api/profile?user=1337')">Flag IDOR</a> <span id="s-idor"></span></li>
+            <li><a class="btn small alt" onclick="verify('lfi','http://vuln.lab:8080/api/view?file=../../secret/flag_hard_c0l1nr00t.txt')">Flag LFI</a> <span id="s-lfi"></span></li>
+          </ul>
+          <p class="muted">Progreso: <span id="pct">0%</span></p>
+        </div>
+        <div>
+          <div class="btnRow">
+            <a class="btn warn small" onclick="resetScore()">Reiniciar progreso</a>
+            <a class="btn ghost small" onclick="exportScore()">Exportar</a>
+            <label class="btn ghost small" style="cursor:pointer">
+              Importar<input id="importFile" type="file" accept="application/json" style="display:none" />
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>© 2025 — Practice Lab by c0l1nr00t</footer>
+  </div>
+
+  <script>
+    // Scoreboard (Stealth)
+    const KEY='htb_easy_v2_hard_flags';
+    const expect = {
+      intranet: 'flag{c0l1nr00t_intranet}',
+      blog: 'flag{c0l1nr00t_blog}',
+      files: 'flag{c0l1nr00t_files}',
+      bof: 'flag{c0l1nr00t_bof}',
+      idor: 'flag{c0l1nr00t_idor}',
+      lfi: 'flag{c0l1nr00t_hard}'
+    };
+    let state = load();
+    document.getElementById('importFile').onchange = (e)=>{
+      const f=e.target.files[0]; if(!f) return;
+      const r=new FileReader();
+      r.onload=()=>{ try{ state=JSON.parse(r.result); save(); render(); }catch{ alert('JSON inválido'); } };
+      r.readAsText(f);
+    };
+    function verify(key,url){
+      fetch(url,{cache:'no-store'}).then(async r=>{
+        if(!r.ok) throw new Error('HTTP '+r.status);
+        const t=await r.text();
+        if(t.includes(expect[key])){ state[key]=true; save(); render(); }
+        else alert('Flag no coincide');
+      }).catch(()=>alert('No pude acceder a la URL. ¿/etc/hosts actualizado?'));
+    }
+    function resetScore(){ if(confirm('¿Borrar progreso?')){ localStorage.removeItem(KEY); state={}; render(); } }
+    function exportScore(){ const b=new Blob([JSON.stringify(state)],{type:'application/json'}); const u=URL.createObjectURL(b); const a=document.createElement('a'); a.href=u; a.download='flags.json'; a.click(); URL.revokeObjectURL(u); }
+    function load(){ try{ return JSON.parse(localStorage.getItem(KEY)||'{}'); }catch{ return {}; } }
+    function save(){ localStorage.setItem(KEY, JSON.stringify(state)); }
+    function render(){
+      document.getElementById('s-intranet').textContent = state.intranet ? '✅ '+expect.intranet : '';
+      document.getElementById('s-blog').textContent     = state.blog     ? '✅ '+expect.blog     : '';
+      document.getElementById('s-files').textContent    = state.files    ? '✅ '+expect.files    : '';
+      document.getElementById('s-bof').textContent      = state.bof      ? '✅ '+expect.bof      : '';
+      document.getElementById('s-idor').textContent     = state.idor     ? '✅ '+expect.idor     : '';
+      document.getElementById('s-lfi').textContent      = state.lfi      ? '✅ '+expect.lfi      : '';
+      const total=6, done=['intranet','blog','files','bof','idor','lfi'].filter(k=>state[k]).length;
+      document.getElementById('pct').textContent=Math.round((done/total)*100)+'%';
+    }
+    render();
+
+    // Terminal taunts (non-interactive)
+    const term = document.getElementById('term');
+    const lines = [
+      "[tip] Usa /etc/hosts… si puedes.",
+      "[recon] ¿Dicen 'uploads'? No creo que sea por ahí…",
+      "[taunt] Muchos llegan hasta aquí. Pocos salen con todas las flags.",
+      "[hint?] 0x41 0x41 0x41 0x41 — ¿te suena?",
+      "[vuln.lab] ¿Quién necesita auth para ver perfiles? Nadie, supongo…",
+      "[LFI] Dos puntos… y el mundo a tus pies.",
+      "[files] Autoindex ON. ¿Y sigues perdido?",
+      "[bof] gets(buf) — en 2025… qué raro, ¿no?",
+      "[status] Aún sin todas las flags. Te dije que no podías."
+    ];
+    function appendLine(msg){
+      const el = document.createElement('div');
+      el.className = 'line new';
+      const now = new Date().toLocaleTimeString();
+      el.innerHTML = '<span class="prompt">taunt@lab</span>:<span>$</span> ' + msg + ' <span class="muted">(' + now + ')</span>';
+      term.appendChild(el);
+      term.scrollTop = term.scrollHeight;
+    }
+    // seed
+    appendLine('Bienvenido. Demuéstrame que puedes.'); 
+    let i = 0; 
+    setInterval(()=>{ appendLine(lines[i % lines.length]); i++; }, 2500);
+  </script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+version: "3.9"
+services:
+  juice-shop:
+    image: bkimminich/juice-shop:latest
+    restart: unless-stopped
+    networks: [lab]
+    expose: ["3000"]
+
+  dvwa-db:
+    image: mariadb:10.11
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dvwa
+      MYSQL_USER: dvwa
+      MYSQL_PASSWORD: dvwa
+    volumes:
+      - dvwa_db:/var/lib/mysql
+    networks: [lab]
+
+  dvwa:
+    image: vulnerables/web-dvwa:latest
+    restart: unless-stopped
+    environment:
+      DB_SERVER: dvwa-db
+      MYSQL_DATABASE: dvwa
+      MYSQL_USER: dvwa
+      MYSQL_PASSWORD: dvwa
+    depends_on:
+      - dvwa-db
+    networks: [lab]
+    expose: ["80"]
+
+  webgoat:
+    image: webgoat/webgoat:latest
+    restart: unless-stopped
+    networks: [lab]
+    expose: ["8080"]
+
+  webwolf:
+    image: webgoat/webwolf:latest
+    restart: unless-stopped
+    networks: [lab]
+    expose: ["9090"]
+
+  # Vulnerable API for hard mode (IDOR + LFI)
+  vulnapi:
+    build: ./vulnapi
+    restart: unless-stopped
+    networks: [lab]
+    expose: ["4000"]
+
+  misconfig-proxy:
+    build: ./nginx
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      - juice-shop
+      - dvwa
+      - webgoat
+      - webwolf
+      - bover
+      - vulnapi
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/html:/usr/share/nginx/html:ro
+    networks: [lab]
+
+  bover:
+    build: ./bover
+    restart: unless-stopped
+    ports:
+      - "31337:31337"
+    networks: [lab]
+
+networks:
+  lab:
+
+volumes:
+  dvwa_db:
