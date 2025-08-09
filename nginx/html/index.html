@@ -6,49 +6,71 @@
   <title>Practice Lab — HTB-style Easy (by c0l1nr00t)</title>
   <style>
     :root{
-      --bg:#0b1022; --panel:#0f172a; --card:#0e1326; --text:#e6edf3; --muted:#97a3b6;
-      --btn1:#6ee7f9; --btn2:#22d3ee; --btn3:#93c5fd; --btn4:#60a5fa; --accent:#22d3ee; --danger:#ef4444;
-      --green:#22c55e; --yellow:#facc15;
+      --bg:#060a12; --panel:#0a111b; --card:#0b1422; --text:#d1fae5; --muted:#84a59d;
+      --neon:#22ff88; --neon2:#10b981; --neon3:#34d399; --alert:#f59e0b; --err:#ef4444;
     }
     *{box-sizing:border-box}
-    body{font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto;line-height:1.55;margin:0;background:linear-gradient(180deg,#0a0f20 0%, #0b1022 100%);color:var(--text)}
-    .container{max-width:1100px;margin:0 auto;padding:28px 20px}
+    body{
+      font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto;
+      margin:0; color:var(--text);
+      background:
+        linear-gradient(180deg,#04070e 0%, #060a12 100%),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.02), rgba(255,255,255,.02) 1px, transparent 2px, transparent 4px);
+    }
+    .container{max-width:1280px;margin:0 auto;padding:28px 20px}
     header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
     .brand{font-weight:800;font-size:26px;letter-spacing:.4px}
-    .brand span{background:linear-gradient(90deg,var(--btn3),var(--btn1));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .brand span{background:linear-gradient(90deg,var(--neon),var(--neon3));-webkit-background-clip:text;background-clip:text;color:transparent}
     .by{font-size:13px;color:var(--muted)}
-    .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
-    .card{background:radial-gradient(1200px 300px at 20% -50%, rgba(34,211,238,0.08), transparent 40%), var(--card);
-          border:1px solid rgba(148,163,184,.12); border-radius:16px; padding:16px 18px; box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    .grid{display:grid;gap:14px;grid-template-columns:repeat(12,minmax(0,1fr))}
+    .card{
+      background:radial-gradient(900px 200px at 20% -50%, rgba(16,185,129,.10), transparent 40%), var(--card);
+      border:1px solid rgba(16,185,129,.20); border-radius:16px; padding:16px 18px;
+      box-shadow:0 10px 30px rgba(0,0,0,.25)
+    }
     .muted{color:var(--muted); font-size:.95rem}
-    code{background:#0b1220;padding:.15rem .4rem;border-radius:.35rem}
+    code{background:#07101a;padding:.15rem .4rem;border-radius:.35rem}
     .section{margin:18px 0}
-    .btn{--c1:var(--btn2);--c2:var(--btn4); display:inline-flex;align-items:center;gap:.5rem;
-         background:linear-gradient(90deg,var(--c1),var(--c2)); color:#06141f; font-weight:800;
-         padding:.6rem .9rem;border-radius:.7rem; text-decoration:none; position:relative; overflow:hidden;
-         transition:transform .08s ease, filter .2s ease}
+    .btn{
+      --c1:var(--neon);--c2:var(--neon3);
+      display:inline-flex;align-items:center;gap:.5rem;
+      background:linear-gradient(90deg,var(--c1),var(--c2));
+      color:#04130a; font-weight:800;
+      padding:.6rem .9rem;border-radius:.7rem; text-decoration:none; position:relative; overflow:hidden;
+      transition:transform .08s ease, filter .2s ease, box-shadow .2s ease;
+      box-shadow:0 0 0 rgba(34,255,136,0);
+      animation: glow 2.5s ease-in-out infinite alternate;
+    }
     .btn.small{font-size:.92rem}
-    .btn:hover{transform:translateY(-1px); filter:brightness(1.08)}
+    .btn:hover{transform:translateY(-1px); filter:brightness(1.08); box-shadow:0 0 18px rgba(34,255,136,.25)}
     .btn:active{transform:translateY(0)}
-    .btn.alt{--c1:var(--btn1);--c2:var(--btn3)}
-    .btn.warn{--c1:var(--yellow);--c2:var(--btn3)}
-    .btn.danger{--c1:#fb7185; --c2:#ef4444}
-    .btn.ghost{background:transparent;color:var(--muted);border:1px dashed rgba(148,163,184,.3)}
+    .btn.alt{--c1:#67e8f9;--c2:#22d3ee}
+    .btn.ghost{background:transparent;color:var(--muted);border:1px dashed rgba(16,185,129,.35);animation:none}
+    .btn.warn{--c1:#fde047;--c2:#f59e0b}
     .btnRow{display:flex;gap:.6rem;flex-wrap:wrap}
+    @keyframes glow{from{box-shadow:0 0 0 rgba(34,255,136,0)} to{box-shadow:0 0 12px rgba(34,255,136,.35)}}
+
     footer{margin-top:26px;color:var(--muted);font-size:.86rem}
+
     /* Terminal panel */
-    .terminal{background:var(--panel); border:1px solid rgba(148,163,184,.16); border-radius:14px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,.3)}
-    .term-top{display:flex;align-items:center;gap:8px;padding:10px 12px;background:linear-gradient(180deg,#0f172a 0%, #0b1220 100%); border-bottom:1px solid rgba(148,163,184,.12)}
+    .terminal{background:var(--panel); border:1px solid rgba(16,185,129,.18); border-radius:14px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,.3)}
+    .term-top{display:flex;align-items:center;gap:8px;padding:10px 12px;background:linear-gradient(180deg,#0a131f 0%, #07101a 100%); border-bottom:1px solid rgba(16,185,129,.2)}
     .dot{width:12px;height:12px;border-radius:50%}
     .dot.red{background:#ff5f56}.dot.yellow{background:#ffbd2e}.dot.green{background:#27c93f}
-    .term-body{padding:12px 14px; font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:13.5px; height:200px; overflow:auto; color:#cbd5e1}
-    .prompt{color:#93c5fd}
+    .term-body{padding:12px 14px; font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:13.5px; height:340px; overflow:auto; color:#cde9da}
+    .prompt{color:#34d399}
     .line.new{opacity:0; transform:translateY(6px); animation: slideIn .25s ease forwards}
     @keyframes slideIn{to{opacity:1; transform:translateY(0)}}
-    /* Scoreboard styles */
+
+    /* Sections sizing */
+    .col-6{grid-column:span 6 / span 6}
+    .col-12{grid-column:1 / -1}
+    .col-4{grid-column:span 4 / span 4}
+    .col-8{grid-column:span 8 / span 8}
+
+    /* Tasks */
     .tasks{list-style:none;margin:0;padding:0;display:grid;gap:.45rem}
-    .ok{color:#86efac}
-    .tag{display:inline-block;background:rgba(34,211,238,.18);color:var(--accent);padding:.2rem .45rem;border-radius:.4rem;font-size:.78rem}
+    .tag{display:inline-block;background:rgba(16,185,129,.18);color:var(--neon3);padding:.2rem .45rem;border-radius:.4rem;font-size:.78rem}
   </style>
 </head>
 <body>
@@ -64,11 +86,12 @@
         <a href="/webgoat/" class="btn small">WebGoat</a>
         <a href="/webwolf/" class="btn small alt">WebWolf</a>
         <a href="/files/" class="btn small ghost">/files</a>
+        <a id="talk" class="btn small warn" href="javascript:void(0)">Háblame</a>
       </div>
     </header>
 
-    <div class="grid">
-      <div class="card">
+    <div class="grid section">
+      <div class="card col-4">
         <h3>Subdominios</h3>
         <p class="muted">Añade a <code>/etc/hosts</code>:</p>
 <pre>127.0.0.1 intranet.lab blog.lab files.lab vuln.lab</pre>
@@ -80,7 +103,7 @@
         </div>
       </div>
 
-      <div class="card">
+      <div class="card col-8">
         <h3>🎯 Desafíos</h3>
         <p class="muted">Demuestra que no hablas… actúas. <span class="tag">No hints</span></p>
         <ul class="tasks">
@@ -93,7 +116,7 @@
         </ul>
       </div>
 
-      <div class="card terminal" aria-readonly="true">
+      <div class="card terminal col-12" aria-readonly="true">
         <div class="term-top">
           <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
           <span class="muted">taunt@lab:~</span>
@@ -106,26 +129,28 @@
       <h3>🏆 Scoreboard (Stealth)</h3>
       <p class="muted">Marca sólo cuando el contenido de la URL realmente contiene la flag esperada.</p>
       <div class="grid">
-        <div>
+        <div class="col-6">
           <ul class="tasks">
             <li><a class="btn small" onclick="verify('intranet','http://intranet.lab:8080/private/flag_intranet_c0l1nr00t.txt')">Flag Intranet</a> <span id="s-intranet"></span></li>
             <li><a class="btn small alt" onclick="verify('blog','http://blog.lab:8080/wp-content/uploads/flag_blog_c0l1nr00t.txt')">Flag Blog</a> <span id="s-blog"></span></li>
             <li><a class="btn small" onclick="verify('files','http://files.lab:8080/secrets/flag_files_c0l1nr00t.txt')">Flag Files</a> <span id="s-files"></span></li>
+          </ul>
+        </div>
+        <div class="col-6">
+          <ul class="tasks">
             <li><a class="btn small alt" onclick="verify('bof','http://localhost:8080/assets/bover_flag.txt')">Flag BufferOverflow</a> <span id="s-bof"></span></li>
             <li><a class="btn small" onclick="verify('idor','http://vuln.lab:8080/api/profile?user=1337')">Flag IDOR</a> <span id="s-idor"></span></li>
             <li><a class="btn small alt" onclick="verify('lfi','http://vuln.lab:8080/api/view?file=../../secret/flag_hard_c0l1nr00t.txt')">Flag LFI</a> <span id="s-lfi"></span></li>
           </ul>
-          <p class="muted">Progreso: <span id="pct">0%</span></p>
         </div>
-        <div>
-          <div class="btnRow">
-            <a class="btn warn small" onclick="resetScore()">Reiniciar progreso</a>
-            <a class="btn ghost small" onclick="exportScore()">Exportar</a>
-            <label class="btn ghost small" style="cursor:pointer">
-              Importar<input id="importFile" type="file" accept="application/json" style="display:none" />
-            </label>
-          </div>
-        </div>
+      </div>
+      <p class="muted">Progreso: <span id="pct">0%</span></p>
+      <div class="btnRow">
+        <a class="btn warn small" onclick="resetScore()">Reiniciar progreso</a>
+        <a class="btn ghost small" onclick="exportScore()">Exportar</a>
+        <label class="btn ghost small" style="cursor:pointer">
+          Importar<input id="importFile" type="file" accept="application/json" style="display:none" />
+        </label>
       </div>
     </div>
 
@@ -133,7 +158,7 @@
   </div>
 
   <script>
-    // Scoreboard (Stealth)
+    // Scoreboard (Stealth) + Terminal events
     const KEY='htb_easy_v2_hard_flags';
     const expect = {
       intranet: 'flag{c0l1nr00t_intranet}',
@@ -144,24 +169,89 @@
       lfi: 'flag{c0l1nr00t_hard}'
     };
     let state = load();
+    const term = document.getElementById('term');
+    let terminalPowered = true;
+
+    const taunts = [
+      "[tip] /etc/hosts es tu amigo… si sabes usarlo.",
+      "[recon] ¿Uploads? Nada interesante… probablemente.",
+      "[taunt] Ya casi. Falta 'casi'.",
+      "[hint?] 0x41 0x41 0x41 0x41 — ¿te suena?",
+      "[vuln.lab] admin sin auth… imposible, ¿no?",
+      "[LFI] Dos puntos… y el mundo a tus pies.",
+      "[files] Autoindex ON. Aún te pierdes lo obvio.",
+      "[bof] gets(buf) — sí, en 2025, qué vergüenza.",
+      "[status] Aún sin todas las flags. Te dije que no podías.",
+      "[ego] ¿Hacker? Sorpréndeme.",
+      "[mindgame] Si fuera fácil, cualquiera lo haría.",
+      "[poke] Tal vez deberías pedir un hint… digo, si te rindes."
+    ];
+
+    function timestamp(){ return new Date().toLocaleTimeString(); }
+    function appendLine(msg, kind="info"){
+      if(!terminalPowered) return;
+      const el = document.createElement('div');
+      el.className = 'line new';
+      const badge = kind === 'ok' ? '✅' : kind === 'err' ? '❌' : kind === 'warn' ? '⚠️' : '∙';
+      el.innerHTML = `<span class="prompt">taunt@lab</span>:<span>$</span> ${badge} ${msg} <span class="muted">(${timestamp()})</span>`;
+      term.appendChild(el);
+      term.scrollTop = term.scrollHeight;
+    }
+    function powerDownTerminal(){
+      terminalPowered = false;
+      appendLine("Me has vencido - Mis respetos.", "ok");
+      term.style.filter = "grayscale(1) brightness(0.7)";
+    }
+
+    // Háblame button to print a taunt on demand
+    document.getElementById('talk').onclick = () => {
+      const msg = taunts[Math.floor(Math.random()*taunts.length)];
+      appendLine(msg);
+    };
+
+    // Import/Export
     document.getElementById('importFile').onchange = (e)=>{
       const f=e.target.files[0]; if(!f) return;
       const r=new FileReader();
-      r.onload=()=>{ try{ state=JSON.parse(r.result); save(); render(); }catch{ alert('JSON inválido'); } };
+      r.onload=()=>{ try{ state=JSON.parse(r.result); save(); render(); appendLine("Estado importado.", "ok"); }catch{ alert('JSON inválido'); } };
       r.readAsText(f);
     };
+
     function verify(key,url){
+      appendLine(`Verificando ${key} → ${url}`);
       fetch(url,{cache:'no-store'}).then(async r=>{
         if(!r.ok) throw new Error('HTTP '+r.status);
         const t=await r.text();
-        if(t.includes(expect[key])){ state[key]=true; save(); render(); }
-        else alert('Flag no coincide');
-      }).catch(()=>alert('No pude acceder a la URL. ¿/etc/hosts actualizado?'));
+        if(t.includes(expect[key])){
+          state[key]=true; save(); render();
+          appendLine(`Flag ${key} confirmada.`, "ok");
+          checkCompletion();
+        } else {
+          appendLine(`Flag ${key} NO coincide.`, "err");
+          alert('Flag no coincide');
+        }
+      }).catch((err)=>{
+        appendLine(`Error accediendo a ${key}: ${err.message||err}`, "err");
+        alert('No pude acceder a la URL. ¿/etc/hosts actualizado?');
+      });
     }
-    function resetScore(){ if(confirm('¿Borrar progreso?')){ localStorage.removeItem(KEY); state={}; render(); } }
-    function exportScore(){ const b=new Blob([JSON.stringify(state)],{type:'application/json'}); const u=URL.createObjectURL(b); const a=document.createElement('a'); a.href=u; a.download='flags.json'; a.click(); URL.revokeObjectURL(u); }
+
+    function checkCompletion(){
+      const all = ['intranet','blog','files','bof','idor','lfi'];
+      const done = all.every(k=>state[k]);
+      if(done){
+        appendLine("Todas las flags obtenidas. Felicitaciones, ganaste.", "ok");
+        powerDownTerminal();
+        alert("🎉 ¡Felicitaciones! Completaste todas las flags.");
+      }
+    }
+
+    function resetScore(){ if(confirm('¿Borrar progreso?')){ localStorage.removeItem(KEY); state={}; render(); appendLine("Progreso reiniciado.", "warn"); } }
+    function exportScore(){ const b=new Blob([JSON.stringify(state)],{type:'application/json'}); const u=URL.createObjectURL(b); const a=document.createElement('a'); a.href=u; a.download='flags.json'; a.click(); URL.revokeObjectURL(u); appendLine("Progreso exportado.", "ok"); }
+
     function load(){ try{ return JSON.parse(localStorage.getItem(KEY)||'{}'); }catch{ return {}; } }
     function save(){ localStorage.setItem(KEY, JSON.stringify(state)); }
+
     function render(){
       document.getElementById('s-intranet').textContent = state.intranet ? '✅ '+expect.intranet : '';
       document.getElementById('s-blog').textContent     = state.blog     ? '✅ '+expect.blog     : '';
@@ -174,31 +264,8 @@
     }
     render();
 
-    // Terminal taunts (non-interactive)
-    const term = document.getElementById('term');
-    const lines = [
-      "[tip] Usa /etc/hosts… si puedes.",
-      "[recon] ¿Dicen 'uploads'? No creo que sea por ahí…",
-      "[taunt] Muchos llegan hasta aquí. Pocos salen con todas las flags.",
-      "[hint?] 0x41 0x41 0x41 0x41 — ¿te suena?",
-      "[vuln.lab] ¿Quién necesita auth para ver perfiles? Nadie, supongo…",
-      "[LFI] Dos puntos… y el mundo a tus pies.",
-      "[files] Autoindex ON. ¿Y sigues perdido?",
-      "[bof] gets(buf) — en 2025… qué raro, ¿no?",
-      "[status] Aún sin todas las flags. Te dije que no podías."
-    ];
-    function appendLine(msg){
-      const el = document.createElement('div');
-      el.className = 'line new';
-      const now = new Date().toLocaleTimeString();
-      el.innerHTML = '<span class="prompt">taunt@lab</span>:<span>$</span> ' + msg + ' <span class="muted">(' + now + ')</span>';
-      term.appendChild(el);
-      term.scrollTop = term.scrollHeight;
-    }
-    // seed
-    appendLine('Bienvenido. Demuéstrame que puedes.'); 
-    let i = 0; 
-    setInterval(()=>{ appendLine(lines[i % lines.length]); i++; }, 2500);
+    // Seed message
+    appendLine('Bienvenido. ¿Quieres que te hable? Pulsa "Háblame".');
   </script>
 </body>
 </html>
