@@ -1,0 +1,4 @@
+Abre scoreboard/public/index.html y agrega el siguiente botón junto a los existentes en el panel c0l1nr00t:
+<button id="resetC0" class="ghost">Reiniciar c0l1nr00t</button>
+
+Colócalo a la derecha de "Me rindo" / "Dime algo" para tener un reset rápido.

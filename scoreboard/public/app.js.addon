@@ -1,0 +1,33 @@
+
+// ==== Terminal Fix Addon ====
+function roastReset(){
+  try { localStorage.removeItem('c0l1n_roast_state'); } catch(e){}
+  // rebuild fresh state
+  const order = Array.from(ROASTS.keys());
+  for (let i = order.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  roastState.order = order;
+  roastState.idx = 0;
+  roastState.finished = false;
+  saveRoastState(roastState);
+  setConnected(true);
+  const talkBtn = document.getElementById('talk');
+  if (talkBtn) talkBtn.disabled = false;
+  addTerm('c0l1nr00t: reiniciado. Demuéstrame que aprendes de tus errores.');
+}
+
+// Attach if button exists
+document.getElementById('resetC0')?.addEventListener('click', roastReset);
+
+// Ensure LED is on when not finished; if finished from previous session, allow reset
+(function ensureConnected(){
+  if (roastState.finished) {
+    setConnected(false);
+    const talkBtn = document.getElementById('talk');
+    if (talkBtn) talkBtn.disabled = true;
+  } else {
+    setConnected(true);
+  }
+})();
