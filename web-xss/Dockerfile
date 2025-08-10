@@ -1,7 +1,7 @@
-
 FROM node:18-alpine
 WORKDIR /app
-COPY . .
-RUN npm init -y && npm install express body-parser
+COPY package.json package-lock.json* ./
+RUN npm ci || npm i
+COPY server.js ./
 EXPOSE 3000
 CMD ["node", "server.js"]

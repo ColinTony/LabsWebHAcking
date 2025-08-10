@@ -34,12 +34,12 @@ services:
       - ./scoreboard/data:/app/data
     networks: [labnet]
 
-  web-xss:
-    build: ./web-xss
-    container_name: htb_web_xss
-    environment:
-      FLAG: "HTB{c0l1nr00t-xss-a1}"
-    networks: [labnet]
+  #web-xss:
+  #  build: ./web-xss
+  #  container_name: htb_web_xss
+  #  environment:
+  #    FLAG: "HTB{c0l1nr00t-xss-a1}"
+  #  networks: [labnet]
 
   web-lfi:
     build: ./web-lfi
@@ -101,6 +101,23 @@ services:
     build: ./crackme
     container_name: htb_crackme
     networks: [labnet]
+
+  web-xss:
+    build: ./web-xss
+    environment:
+      SEED: "1337"
+      ADMIN_TOKEN: "xss-admin-token"
+    networks: [ labnet ]
+
+  xss-bot:
+    build: ./xss-bot
+    environment:
+      ORIGIN: "http://web-xss:3000"
+      ADMIN_TOKEN: "xss-admin-token"
+    depends_on:
+      - web-xss
+    networks: [ labnet ]
+
 
 networks:
   labnet:
