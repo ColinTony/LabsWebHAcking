@@ -1,0 +1,6 @@
+Add optional healthchecks in compose:
+healthcheck:
+  test: [ 'CMD-SHELL', 'wget -qO- http://localhost:3000/score/state || exit 1' ]
+  interval: 10s
+  timeout: 3s
+  retries: 5

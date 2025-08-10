@@ -9,10 +9,10 @@ services:
       - web-xss
       - web-lfi
       - web-sqli
-      - web-xxe
+    #  - web-xxe
       - web-idor
       - web-csrf
-      - web-ssrf
+     # - web-ssrf
       - web-upload
       - bover
       - crackme

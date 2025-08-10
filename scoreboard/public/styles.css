@@ -1,5 +1,3 @@
-
-/* New modern theme: slate + purple/teal accents; accessible contrast */
 :root{
   --bg: #0b1220;
   --bg-elev: #101a2b;
@@ -9,7 +7,6 @@
   --accent: #7c5cff;
   --accent-2: #2dd4bf;
   --danger: #ff6b6b;
-  --ring: rgba(124,92,255,0.35);
   --radius: 14px;
   --shadow: 0 10px 30px rgba(0,0,0,0.35);
 }
@@ -58,17 +55,11 @@ button,select{font:inherit}
   display:flex;flex-direction:column;gap:12px;
 }
 .panel-header{display:flex;align-items:center;gap:10px}
-.panel-header .led{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 20px var(--ring)}
+.panel-header .led{width:10px;height:10px;border-radius:50%;background:var(--accent-2);box-shadow:0 0 20px rgba(45,212,191,.45)}
 .panel-header h2{margin:0;font-size:16px;letter-spacing:.5px}
 
 .terminal{
-  flex:1;
-  overflow:auto;
-  background: #0b1020;
-  border: 1px dashed #273048;
-  border-radius: 10px;
-  padding: 10px;
-  line-height: 1.4;
+  flex:1;overflow:auto;background:#0b1020;border:1px dashed #273048;border-radius:10px;padding:10px;line-height:1.4;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 }
 .panel-actions{display:flex;gap:8px}
@@ -76,54 +67,25 @@ button{background:linear-gradient(180deg,#111c32,#0d1628);border:1px solid #2531
 button:hover{filter:brightness(1.05)}
 button.danger{border-color:#3b1f28;background:linear-gradient(180deg,#201018,#1b0f16);color:#ffd1d1}
 
-.content{
-  grid-area: content;
-  display:flex;flex-direction:column;gap:16px;
-}
-
-.progress-card{
-  background: var(--bg-elev);
-  border: 1px solid #1e293b;
-  border-radius: var(--radius);
-  padding: 16px;
-  box-shadow: var(--shadow);
+.content{grid-area: content;display:flex;flex-direction:column;gap:16px}
+.progress-card,.cards,.achievements{
+  background: var(--bg-elev);border:1px solid #1e293b;border-radius: var(--radius);padding:16px;box-shadow: var(--shadow);
 }
 .bar{height:12px;background:#111a2a;border-radius:999px;overflow:hidden}
 .bar #bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent), var(--accent-2));transition:width .3s ease}
-
 .small{color:var(--muted);margin-top:8px}
 .filters{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
-
-.cards, .achievements{
-  background: var(--bg-elev);
-  border: 1px solid #1e293b;
-  border-radius: var(--radius);
-  padding: 16px;
-  box-shadow: var(--shadow);
-}
-.cards h3, .achievements h3{margin:0 0 10px}
-
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
-.card{
-  background: #0c1426;
-  border: 1px solid #24304a;
-  border-radius: 12px;
-  padding: 12px;
-  display:flex;flex-direction:column;gap:8px
-}
+.card{background:#0c1426;border:1px solid #24304a;border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px}
 .card h3{margin:0 0 4px}
 .card .meta{color:var(--muted);font-size:.9rem}
 .card a{color:var(--accent-2);text-decoration:none}
 .card .actions{display:flex;gap:8px}
-
 .list{margin:0;padding-left:20px}
 .list li{margin:4px 0}
 
-/* Make layout stack on narrow screens */
 @media (max-width: 980px){
   .layout{grid-template-columns:1fr;grid-template-rows:64px auto auto;grid-template-areas:
-    "topbar"
-    "panel"
-    "content";}
+    "topbar" "panel" "content";}
   #panel{position:relative;height:auto}
 }

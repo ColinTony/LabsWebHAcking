@@ -1,0 +1,7 @@
+
+# Example healthcheck to paste into each service in docker-compose.yml
+healthcheck:
+  test: ["CMD-SHELL", "wget -qO- http://localhost:3000/health || exit 1"]
+  interval: 15s
+  timeout: 3s
+  retries: 5
