@@ -1,0 +1,132 @@
+[
+  {
+    "name": "XSS Guestbook",
+    "slug": "xss",
+    "subdomain": "xss.lab",
+    "track": "Web",
+    "difficulty": "Easy",
+    "hints": [
+      "Prueba un parámetro visible",
+      "Busca contexto HTML",
+      "Cierra etiquetas y ejecuta"
+    ],
+    "timebox": 1800
+  },
+  {
+    "name": "LFI Classic",
+    "slug": "lfi",
+    "subdomain": "lfi.lab",
+    "track": "Web",
+    "difficulty": "Easy",
+    "hints": [
+      "files=..",
+      "Doble encoding",
+      "Extensión permitida"
+    ],
+    "timebox": 1800
+  },
+  {
+    "name": "SQLi Login",
+    "slug": "sqli",
+    "subdomain": "sqli.lab",
+    "track": "Web",
+    "difficulty": "Medium",
+    "hints": [
+      "Login vulnerable",
+      "OR 1=1",
+      "Inyección de UNION"
+    ],
+    "timebox": 2700
+  },
+  {
+    "name": "XXE Peek",
+    "slug": "xxe",
+    "subdomain": "xxe.lab",
+    "track": "Web",
+    "difficulty": "Medium",
+    "hints": [
+      "DTD externa",
+      "file://",
+      "XXE básica"
+    ],
+    "timebox": 2700
+  },
+  {
+    "name": "IDOR Profile",
+    "slug": "idor",
+    "subdomain": "idor.lab",
+    "track": "Web",
+    "difficulty": "Easy",
+    "hints": [
+      "/api/users/1",
+      "Campos ocultos",
+      "Sin auth"
+    ],
+    "timebox": 1800
+  },
+  {
+    "name": "CSRF Action",
+    "slug": "csrf",
+    "subdomain": "csrf.lab",
+    "track": "Web",
+    "difficulty": "Easy",
+    "hints": [
+      "Form auto-submit",
+      "CORS laxo",
+      "Referrer"
+    ],
+    "timebox": 1800
+  },
+  {
+    "name": "SSRF Filter",
+    "slug": "ssrf",
+    "subdomain": "ssrf.lab",
+    "track": "Web",
+    "difficulty": "Medium",
+    "hints": [
+      "Allowlist débil",
+      "127.0.0.1",
+      "Esquemas"
+    ],
+    "timebox": 2700
+  },
+  {
+    "name": "Upload Trick",
+    "slug": "upload",
+    "subdomain": "upload.lab",
+    "track": "Web",
+    "difficulty": "Medium",
+    "hints": [
+      "Doble extensión",
+      "MIME vs extensión",
+      "Mayúsculas"
+    ],
+    "timebox": 2700
+  },
+  {
+    "name": "BoF 31337",
+    "slug": "bover",
+    "subdomain": "bover.lab",
+    "track": "Reversing",
+    "difficulty": "Hard",
+    "hints": [
+      "Sin canarios",
+      "EIP/RIP control",
+      "Imprime flag"
+    ],
+    "timebox": 3600
+  },
+  {
+    "name": "Crackme 909",
+    "slug": "crackme",
+    "subdomain": "crackme.lab",
+    "track": "Reversing",
+    "difficulty": "Easy",
+    "hints": [
+      "Clave hardcode",
+      "Checksum simple",
+      "Comparación"
+    ],
+    "timebox": 1800
+  }
+]

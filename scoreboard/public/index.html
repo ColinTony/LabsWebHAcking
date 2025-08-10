@@ -1,0 +1,68 @@
+
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>HTB Easy Lab — Dashboard</title>
+  <link rel="stylesheet" href="/styles.css"/>
+</head>
+<body>
+  <div class="layout">
+    <header class="topbar">
+      <div class="brand">
+        <div class="dot"></div>
+        <h1>HTB Easy Lab</h1>
+      </div>
+      <nav class="actions">
+        <button id="dailyBtn" class="ghost">Daily</button>
+        <button id="weeklyBtn" class="ghost">Weekly</button>
+        <button id="resetRoutine" class="ghost">Rearmar rutina</button>
+      </nav>
+    </header>
+
+    <aside id="panel">
+      <div class="panel-header">
+        <span class="led" aria-hidden="true"></span>
+        <h2>c0l1nr00t</h2>
+      </div>
+      <div id="term" class="terminal" aria-live="polite" aria-label="Mensajes de c0l1nr00t"></div>
+      <div class="panel-actions">
+        <button id="talk">Dime algo</button>
+        <button id="giveup" class="danger">Me rindo</button>
+      </div>
+    </aside>
+
+    <main class="content">
+      <section class="progress-card">
+        <div class="bar"><div id="bar"></div></div>
+        <div class="small"><strong id="percent">0%</strong> completado</div>
+        <div class="filters">
+          <select id="trackFilter">
+            <option value="">Todas las rutas</option>
+            <option>Web</option>
+            <option>Reversing</option>
+          </select>
+          <select id="diffFilter">
+            <option value="">Todas las dificultades</option>
+            <option>Easy</option>
+            <option>Medium</option>
+            <option>Hard</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="cards">
+        <h3>Retos</h3>
+        <div id="cards" class="grid"></div>
+      </section>
+
+      <section class="achievements">
+        <h3>Logros</h3>
+        <ul id="achList" class="list"></ul>
+      </section>
+    </main>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>

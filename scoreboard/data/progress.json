@@ -1,0 +1,18 @@
+{
+  "completed": [
+    "HTB{c0l1nr00t-xss-a1}"
+  ],
+  "total": 10,
+  "stats": {
+    "perChallenge": {
+      "xss": {
+        "firstAt": 1754784846459,
+        "lastAt": 1754784846459
+      }
+    },
+    "achievements": [
+      "First Blood"
+    ]
+  },
+  "leaderboard": []
+}

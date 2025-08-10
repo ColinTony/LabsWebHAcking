@@ -1,81 +1,107 @@
 version: "3.9"
+
 services:
-  juice-shop:
-    image: bkimminich/juice-shop:latest
-    restart: unless-stopped
-    networks: [lab]
-    expose: ["3000"]
-
-  dvwa-db:
-    image: mariadb:10.11
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: dvwa
-      MYSQL_USER: dvwa
-      MYSQL_PASSWORD: dvwa
-    volumes:
-      - dvwa_db:/var/lib/mysql
-    networks: [lab]
-
-  dvwa:
-    image: vulnerables/web-dvwa:latest
-    restart: unless-stopped
-    environment:
-      DB_SERVER: dvwa-db
-      MYSQL_DATABASE: dvwa
-      MYSQL_USER: dvwa
-      MYSQL_PASSWORD: dvwa
+  reverse-proxy:
+    image: nginx:alpine
+    container_name: htb_reverse_proxy
     depends_on:
-      - dvwa-db
-    networks: [lab]
-    expose: ["80"]
-
-  webgoat:
-    image: webgoat/webgoat:latest
-    restart: unless-stopped
-    networks: [lab]
-    expose: ["8080"]
-
-  webwolf:
-    image: webgoat/webwolf:latest
-    restart: unless-stopped
-    networks: [lab]
-    expose: ["9090"]
-
-  # Vulnerable API for hard mode (IDOR + LFI)
-  vulnapi:
-    build: ./vulnapi
-    restart: unless-stopped
-    networks: [lab]
-    expose: ["4000"]
-
-  misconfig-proxy:
-    build: ./nginx
-    restart: unless-stopped
-    ports:
-      - "8080:80"
-    depends_on:
-      - juice-shop
-      - dvwa
-      - webgoat
-      - webwolf
+      - scoreboard
+      - web-xss
+      - web-lfi
+      - web-sqli
+      - web-xxe
+      - web-idor
+      - web-csrf
+      - web-ssrf
+      - web-upload
       - bover
-      - vulnapi
+      - crackme
     volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro
-      - ./nginx/html:/usr/share/nginx/html:ro
-    networks: [lab]
+      - ./reverse-proxy/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "80:80"
+    networks: [labnet]
+
+  scoreboard:
+    build: ./scoreboard
+    container_name: htb_scoreboard
+    environment:
+      ADMIN_TOKEN: "supersecretadmin"
+      ENABLE_LEADERBOARD: "true"
+      SEED: "1337"
+      THEME: "default"
+    volumes:
+      - ./scoreboard/data:/app/data
+    networks: [labnet]
+
+  web-xss:
+    build: ./web-xss
+    container_name: htb_web_xss
+    environment:
+      FLAG: "HTB{c0l1nr00t-xss-a1}"
+    networks: [labnet]
+
+  web-lfi:
+    build: ./web-lfi
+    container_name: htb_web_lfi
+    environment:
+      FLAG: "HTB{c0l1nr00t-lfi-b2}"
+    networks: [labnet]
+
+  web-sqli:
+    build: ./web-sqli
+    container_name: htb_web_sqli
+    environment:
+      FLAG: "HTB{c0l1nr00t-sqli-c3}"
+    networks: [labnet]
+
+  web-xxe:
+    build: ./web-xxe
+    container_name: htb_web_xxe
+    environment:
+      FLAG: "HTB{c0l1nr00t-xxe-d4}"
+    networks: [labnet]
+
+  web-idor:
+    build: ./web-idor
+    container_name: htb_web_idor
+    environment:
+      FLAG: "HTB{c0l1nr00t-idor-e5}"
+    networks: [labnet]
+
+  web-csrf:
+    build: ./web-csrf
+    container_name: htb_web_csrf
+    environment:
+      FLAG: "HTB{c0l1nr00t-csrf-f6}"
+    networks: [labnet]
+
+  web-ssrf:
+    build: ./web-ssrf
+    container_name: htb_web_ssrf
+    environment:
+      FLAG: "HTB{c0l1nr00t-ssrf-g7}"
+    networks: [labnet]
+
+  web-upload:
+    build: ./web-upload
+    container_name: htb_web_upload
+    environment:
+      FLAG: "HTB{c0l1nr00t-upload-h8}"
+    networks: [labnet]
 
   bover:
     build: ./bover
-    restart: unless-stopped
+    container_name: htb_bover
+    networks: [labnet]
     ports:
       - "31337:31337"
-    networks: [lab]
+
+  crackme:
+    build: ./crackme
+    container_name: htb_crackme
+    networks: [labnet]
 
 networks:
-  lab:
-
-volumes:
-  dvwa_db:
+  labnet:
+    driver: bridge

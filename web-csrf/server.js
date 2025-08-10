@@ -1,0 +1,29 @@
+
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+const PORT = 3000;
+const FLAG = process.env.FLAG || 'FLAG_MISSING';
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
+
+function flagHtml(flag){
+  return `<html><head><style>body{background:#000;color:#0f0;font-family:monospace}</style></head><body>
+  <h1>/flag</h1><p>${flag}</p>
+  <img src="http://lab/score/beacon?token=${encodeURIComponent(flag)}" width="1" height="1"/>
+  </body></html>`;
+}
+
+
+let balance = 100;
+app.post('/transfer', (req,res)=>{
+  const {to, amount} = req.body;
+  // Sin token CSRF: cualquier origen puede llamar
+  balance -= Number(amount||0);
+  res.json({ok:true, balance});
+});
+
+
+app.get('/flag',(req,res)=>{ res.send(flagHtml(FLAG)); });
+app.get('/',(req,res)=>{ res.send('<html><body style="background:#000;color:#0f0;font-family:monospace"><h1>CSRF Action</h1><p>Explota la vulnerabilidad y visita /flag para registrar progreso.</p></body></html>'); });
+app.listen(PORT, ()=>console.log('CSRF Action listening on '+PORT));
